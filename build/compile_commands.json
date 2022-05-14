@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/henry/projects/musx/build",
+  "command": "/usr/bin/g++ -I/home/henry/projects/musx/include -g -o src/CMakeFiles/Musx.dir/Musx.cpp.o -c /home/henry/projects/musx/src/Musx.cpp",
+  "file": "/home/henry/projects/musx/src/Musx.cpp"
+},
+{
+  "directory": "/home/henry/projects/musx/build",
+  "command": "/usr/bin/g++ -I/home/henry/projects/musx/include -g -o src/CMakeFiles/Musx.dir/main.cpp.o -c /home/henry/projects/musx/src/main.cpp",
+  "file": "/home/henry/projects/musx/src/main.cpp"
+}
+]
