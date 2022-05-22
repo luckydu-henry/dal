@@ -15,9 +15,9 @@
 #define fprint fprintf_s
 #define print printf_s
 #elif defined __linux__
-#define sprint std::sprintf
-#define fprint std::fprintf
-#define print  std::printf
+#define sprint sprintf
+#define fprint fprintf
+#define print  printf
 #endif
 
 

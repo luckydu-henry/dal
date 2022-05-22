@@ -7,6 +7,10 @@ Musx 是一个免费开源音频播放库，只有一个 .h 和 .cpp 文件； �
 (国内)13552325266@163.com
 (国外)wotsukoroga94@gmail.com
 ## 更新
+
+#### Musx v1.1.2 更新 2022/5/22:
+1. 添加构建脚本，简化构建流程。
+2. Linux 平台取消附加依赖。
 #### Musx v1.1.1 更新 2022/5/22:
 1. 优化的构建和项目结构 —— 构建方法和目录结构变得更加简便，构建文档也更加的详细。
 ### Musx v1.1 更新:
@@ -27,29 +31,9 @@ Musx 是一个免费开源音频播放库，只有一个 .h 和 .cpp 文件； �
 **CMake 可以直接构建参考案例**
 ### 完整的构建流程
 #### Windows
-```pws
-git clone https://github.com/luckydu-henry/lib_musx.git Musx
-cd Musx
-mkdir build
-cd build
-cmake ..
-```
-打开 VisualStudio 生成解决方案之后进入 bin 文件夹下复制 OpenAL32.dll 和 sndfile.dll 到 Release/Debug 目录下然后直接运行。
+克隆项目到文件夹后直接运行 build.bat 然后进入 build 文件夹使用 VisualStudio 生成解决方案之后进入 bin 文件夹下复制 OpenAL32.dll 和 sndfile.dll 到 Release/Debug 目录下然后直接运行。
 #### Linux
-构建之前请确保已经安装 libasound2-dev 和 GNUMake. Ubuntu下指令如下
-```bash
-sudo apt install libasound2-dev
-sudo apt install gcc
-sudo apt install make
-git clone https://github.com/luckydu-henry/lib_musx.git Musx
-cd Musx
-mkdir build
-cd build
-cmake ..
-make
-cd bin
-./Musx
-```
+克隆项目到文件夹后直接执行 sh build.sh 然后进入 build/bin 目录即可查看案例。 (仅限 Ubuntu)
 ## 文档
 Musx 之前的文档是英文的，且存在一些问题，这并不利于项目的开发，所以现在，这个例子被更新并使用最新的 API 和全中文注释。
 ```C++

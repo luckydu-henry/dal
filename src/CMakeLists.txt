@@ -2,7 +2,7 @@ set(ROOT ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_STANDARD 17)
 
 # Set static link path.
-set(UNIX_LINK_PATH ${ROOT}/lib/UNIX/)
+set(UNIX_LINK_PATH /usr/lib)
 set(WIN32_LINK_PATH ${ROOT}/lib/WIN32/)
 # Set dynamic link path.
 set(WIN32_RUNTIME ${WIN32_LINK_PATH}/runtime/)
@@ -35,6 +35,6 @@ if(WIN32)
     target_link_libraries(${PROJECT_NAME} OpenAL32)
     target_link_libraries(${PROJECT_NAME} sndfile)
 elseif(UNIX)
-    target_link_libraries(${PROJECT_NAME} libopenal.a)
-    target_link_libraries(${PROJECT_NAME} libsndfile.a)
+    target_link_libraries(${PROJECT_NAME} libopenal.so)
+    target_link_libraries(${PROJECT_NAME} libsndfile.so)
 endif(WIN32)
