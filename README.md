@@ -1,8 +1,15 @@
 # Musx
 ## 介绍
-Musx 是一个免费开源音频播放库，只有一个 .h 和 .cpp 文件； 基于 OpenAL 和 libsndfile.
+Musx 是一个免费开源音频播放库，只有一个 .h 和 .cpp 文件； 基于 OpenAL 和 libsndfile. 只需添加两个文件到项目中即可快速使用！
+作者：Henry Du.
+最后更新: 2022/5/22
+联系方式:
+(国内)13552325266@163.com
+(国外)wotsukoroga94@gmail.com
 ## 更新
-Musx v1.1 版本迎来了重大更新：
+####Musx v1.1.1 更新 2022/5/22:
+1. 优化的构建和项目结构 —— 构建方法和目录结构变得更加简便，构建文档也更加的详细。
+###Musx v1.1 更新:
 1. 更换的文件名 —— musx.h 更新到了 Musx.h 以更好的区分与标准库。
 2. Linux支持 —— Musx 已经在 Ubuntu22.04LTS 版本上通过测试。
 3. 更新的项目结构 —— 使用 CMake 作为项目管理器，兼具跨平台与灵活性。
@@ -16,18 +23,29 @@ Musx v1.1 版本迎来了重大更新：
 3. 更多的 OpenAL 功能如 alEffects...
 
 ## 构建
-你需要手动下载两个依赖库 openal-soft 和 libsndfile 来进行构建，如果是 Linux 平台，请确保安装 libasound2-dev 库。
-Ubuntu 下可以使用 
+**现在不再需要手动的构建依赖库了！**
+**CMake 可以直接构建参考案例**
+### 完整的构建流程
+#### Windows
+```pws
+git clone https://github.com/luckydu-henry/lib_musx.git Musx
+cd Musx
+mkdir build
+cd build
+cmake ..
+```
+打开 VisualStudio 生成解决方案之后进入 bin 文件夹下复制 OpenAL32.dll 和 sndfile.dll 到 Release/Debug 目录下然后直接运行。
+#### Linux
 ```bash
-sudo apt install libasound2-dev
+git clone https://github.com/luckydu-henry/lib_musx.git Musx
+cd Musx
+mkdir build
+cd build
+cmake ..
+make
+cd bin
+./Musx
 ```
-来进行安装，因为 Musx 使用 ALSA。
-同时，请确保你的 openal-soft 是静态库，可以使用 
-```cmake
-cmake -DLIBTYPE=STATIC 
-```
-来生成静态库。
-
 ## 文档
 Musx 之前的文档是英文的，且存在一些问题，这并不利于项目的开发，所以现在，这个例子被更新并使用最新的 API 和全中文注释。
 ```C++
