@@ -6,10 +6,21 @@
 #include <cinttypes>
 #include <iostream>
 
-
 #define SND_ERRMSG     "[Error @Musx::sndfile]: "
 #define AL_ERRMSG      "[Error @Musx::OpenAL]: "
 #define ALC_ERRMSG     "[Error @Musx::OpenAL Device]: "
+
+#ifdef _WIN32
+#define sprint sprintf_s
+#define fprint fprintf_s
+#define print printf_s
+#elif defined __linux__
+#define sprint std::sprintf
+#define fprint std::fprintf
+#define print  std::printf
+#endif
+
+
 
 namespace Musx
 {
@@ -35,12 +46,12 @@ namespace Musx
         sndfile = sf_open(_path, SFM_READ, &sfinfo);
         if (!sndfile)
         {
-            sprintf(Err_Throw, SND_ERRMSG "Could not open audio in %s\n", _path);
+            sprint(Err_Throw, SND_ERRMSG "Could not open audio in %s\n", _path);
             throw Err_Throw;
         }
         if (sfinfo.frames < 1 || sfinfo.frames >(sf_count_t)(INT32_MAX / sizeof(short)) / sfinfo.channels)
         {
-            sprintf(Err_Throw, SND_ERRMSG "Bad sample count in %s (%" PRId64 ")\n", _path, sfinfo.frames);
+            sprint(Err_Throw, SND_ERRMSG "Bad sample count in %s (%" PRId64 ")\n", _path, sfinfo.frames);
             sf_close(sndfile);
             throw Err_Throw;
         }
@@ -69,7 +80,7 @@ namespace Musx
         {
             free(membuf);
             sf_close(sndfile);
-            sprintf(Err_Throw, SND_ERRMSG "Failed to read samples in %s (%" PRId64 ")\n", _path, num_frames);
+            sprint(Err_Throw, SND_ERRMSG "Failed to read samples in %s (%" PRId64 ")\n", _path, num_frames);
             throw Err_Throw;
         }
 
@@ -89,7 +100,7 @@ namespace Musx
         err = alGetError();
         if (err != AL_NO_ERROR)
         {
-            sprintf(Err_Throw, AL_ERRMSG "%s\n", alGetString(err));
+            sprint(Err_Throw, AL_ERRMSG "%s\n", alGetString(err));
             if (buffer && alIsBuffer(buffer))
                 alDeleteBuffers(1, &buffer);
             throw Err_Throw;
