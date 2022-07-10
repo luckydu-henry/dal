@@ -1,0 +1,6 @@
+[requires]
+libsndfile/1.0.31
+openal/1.21.1
+
+[generators]
+cmake

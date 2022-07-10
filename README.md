@@ -1,97 +1,49 @@
-# Musx
+# musx
 ## 介绍
-Musx 是一个免费开源音频播放库，只有一个 .h 和 .cpp 文件； 基于 OpenAL 和 libsndfile. 只需添加两个文件到项目中即可快速使用！
+musx 是一个免费开源音频播放库， 基于 OpenAL 和 libsndfile. 只需添加包含到项目中即可快速使用！
 作者：Henry Du.
-最后更新: 2022/5/22
+最后更新: 2022/7/10
 联系方式:
 (国内)13552325266@163.com
 (国外)wotsukoroga94@gmail.com
 ## 更新
-
-#### Musx v1.1.2 更新 2022/5/22:
-1. 添加构建脚本，简化构建流程。
-2. Linux 平台取消附加依赖。
-#### Musx v1.1.1 更新 2022/5/22:
-1. 优化的构建和项目结构 —— 构建方法和目录结构变得更加简便，构建文档也更加的详细。
-### Musx v1.1 更新:
-1. 更换的文件名 —— musx.h 更新到了 Musx.h 以更好的区分与标准库。
-2. Linux支持 —— Musx 已经在 Ubuntu22.04LTS 版本上通过测试。
-3. 更新的项目结构 —— 使用 CMake 作为项目管理器，兼具跨平台与灵活性。
-4. 优化的性能 —— Musx::Engine 已经支持智能指针管理，同时 Engine::init 和 Engine::destroy 函数已经弃用。
-5. 便捷的操作 —— 新的 Musx::LoadAudios 和 Musx::DeleteAudios 函数可以更加快捷的批量创建 Audio_t 对象，但你
-仍然可以选择使用 Musx::SoundBuffer::get()->load_from_file 或 Musx::SoundBuffer::get()->unload 函数，虽然这不被建议。
+### MUSX v2.0.0 更新
+重大更新 musx 的编程风格以及 API 都得到了大幅更新！
+受到 boost 和标准库的启发，musx 的命名空间重新改为小写，
+单一文件取消，现在是多个 hpp 文件。
+musx 改用 conan 作为依赖管理，简化了构建流程。
+---
+#### 新的 API:
+1. oaudiostream: 设备以及 playback 管理.
+2. isndstream  : 音频文件读取（目前不支持 mpeg 格式）.
+3. buffer_tool : 生成 buffer, 包含两个模式 copy 和 extract.
+4. source_manager: 管理音频元.
+5. streaming_manager: 管理音乐元.
+---
+#### 弃用
+1. genAudioList 和 delAudioList, musx 现在更关注核心功能。
+2. play 和 update_stream 函数，现在使用 oaudiostream::operator<< 来直接输出.
 
 ## 计划
 1. MacOSX 支持。
-2. 跨平台库预支持。
-3. 更多的 OpenAL 功能如 alEffects...
+2. 更多的 OpenAL 功能如 alEffects...
+3. 音频录制以及文件写入支持。
+4. mpeg 格式支持。
 
 ## 构建
-**现在不再需要手动的构建依赖库了！**
-**CMake 可以直接构建参考案例**
-### 完整的构建流程
-#### Windows
-克隆项目到文件夹后直接运行 build.bat 然后进入 build 文件夹使用 VisualStudio 生成解决方案之后进入 bin 文件夹下复制 OpenAL32.dll 和 sndfile.dll 到 Release/Debug 目录下然后直接运行。
-#### Linux
-克隆项目到文件夹后直接执行 sh build.sh 然后进入 build/bin 目录即可查看案例。 (仅限 Ubuntu)
+如果不需要案例直接将 include 目录下的所有内容复制到自己的项目即可，
+需要自行安装 openal-soft 和 libsndfile 两个依赖。
+### 构建例子
+直接运行 build.sh/build.bat 即可 (需要先安装 python3 conan 以及 cmake)
 ## 文档
-Musx 之前的文档是英文的，且存在一些问题，这并不利于项目的开发，所以现在，这个例子被更新并使用最新的 API 和全中文注释。
-```C++
-//! Musx example.
-//! Last Update: 2022/5/14.
-//! Author: Henry Du.
-
-#include <Musx.h>
-#include <iostream>
-#include <memory>
-
-
-int main(int argc, char* argv[])
-{
-    try
-    {
-        auto engine = std::make_unique<Musx::Engine>();
-        if(argc == 1)
-        {
-            std::cout << "用法： Musx <文件名>" << std::endl;
-            engine.~unique_ptr();
-            std::exit(0);
-        }
-        if (argc == 2)
-        {
-            std::string arg = argv[1];
-            Musx::Audio_t audio;
-    
-            Musx::LoadAudios(&audio,&arg,1);
-            {
-
-                Musx::SoundPlayer player;
-                std::cout << "正在播放：" << arg << std::endl;
-                player.play(audio);
-            }
-    
-            Musx::DeleteAudios(&audio,1);
-        }
-        
-        return 0;
-
-    }
-    catch(const char* _msg)
-    {
-        std::cerr << _msg << '\n';
-    }
-    
-}
-```
-你也可以在 main.cpp 中找到它。
-
+examples 文件夹下的两个例子基本足够。
 ## 感谢
 Musx 使用了 openal-soft 和 libsndfile; 同时，感谢 YouTube 上的免费课程：
 - **OpenAL-soft     : https://github.com/kcat/openal-soft**
 - **libsndfile      : https://github.com/libsndfile/libsndfile**
 - **YouTube Tutorial: https://www.youtube.com/watch?v=fG2veGWNPJY&list=PLalVdRk2RC6r7-4zciZ3LKc96ikviw6BS**
 ## 许可
-Musx 使用 LGPL 许可，取自开源，回馈开源。
+musx 改用 BSL 许可(boost-library-license)，取自开源，回馈开源, 向标准库致敬。
 
 ## Musx 为游戏而生，它的未来属于一个更强的游戏引擎...
 
