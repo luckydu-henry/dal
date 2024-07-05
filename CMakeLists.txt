@@ -1,12 +1,22 @@
-cmake_minimum_required(VERSION 3.0.0)
-set(CMAKE_CXX_STANDARD 11)
-project(musx)
-include_directories(${PROJECT_SOURCE_DIR}/include/)
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+cmake_minimum_required(VERSION 3.15)
 
-add_executable(musx_player ${PROJECT_SOURCE_DIR}/examples/musx_player.cpp)
-target_link_libraries(musx_player ${CONAN_LIBS})
+project(DAL   VERSION 1.0
+              DESCRIPTION "Digital Audio Library written by modern C++20."
+              LANGUAGES C CXX)
 
-add_executable(musx_audio ${PROJECT_SOURCE_DIR}/examples/musx_audio.cpp)
-target_link_libraries(musx_audio ${CONAN_LIBS})
+file(GLOB DAL_HEADER       "include/dal/*.hpp")
+file(GLOB DAL_EXT_HEADER   "include/dal/extensions/*.hpp")
+
+set(INC_PATH "include/")
+source_group(dal            FILES ${DAL_HEADER})
+source_group(dal/extensions FILES ${DAL_EXT_HEADER})
+
+# This example shows how to sample from an oscillator and write sampled pcm to a fstream.
+add_executable            (sample_and_to_file "example/sample_and_to_file.cpp" ${DAL_HEADER} ${DAL_EXT_HEADER})
+target_compile_features   (sample_and_to_file PUBLIC cxx_std_20)
+target_include_directories(sample_and_to_file PUBLIC ${INC_PATH})
+
+# This example shows how to read and write an wave file using io extension.
+add_executable            (read_wave_and_to_file "example/read_wave_and_to_file.cpp" ${DAL_HEADER} ${DAL_EXT_HEADER})
+target_compile_features   (read_wave_and_to_file PUBLIC cxx_std_20)
+target_include_directories(read_wave_and_to_file PUBLIC ${INC_PATH})
